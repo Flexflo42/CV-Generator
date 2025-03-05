@@ -1,6 +1,7 @@
 import Image from "next/image";
+import Link from 'next/link';
 
-export default function Home() {
+{/* export default function Home() {
   return (
     <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
       <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
@@ -98,4 +99,19 @@ export default function Home() {
       </footer>
     </div>
   );
+} */}
+
+export default function HomePage() {
+  return (
+    <div className="container mx-auto p-4">
+      <h1 className="text-3xl font-bold">AI Resume Generator</h1>
+      <p>Create a professional resume in minutes</p>
+      <Link 
+        href="/generator" 
+        className="bg-blue-500 text-white px-4 py-2 rounded mt-4 inline-block"
+      >
+        Start Generating
+      </Link>
+    </div>
+  )
 }
