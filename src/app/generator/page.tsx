@@ -1,5 +1,7 @@
 // app/generator/page.tsx
-import ResumeForm from '@/components/ResumeForm';
+//import ResumeForm from '@/components/ResumeForm';
+// src/app/generator/page.tsx
+import ResumeForm from '../components/ResumeForm';
 
 export default function GeneratorPage() {
   return (

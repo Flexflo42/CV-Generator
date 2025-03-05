@@ -1,6 +1,6 @@
 'use client';
 import { useState, FormEvent } from 'react';
-import { generateResume } from '@/lib/groq';
+import { generateResume } from '../lib/groq';
 
 export default function ResumeForm() {
   const [resumeData, setResumeData] = useState({
