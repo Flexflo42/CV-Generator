@@ -164,7 +164,7 @@ export default function ResumeForm() {
       {generatedContent && (
         <div className="mt-6">
           <h2 className="text-xl font-bold mb-3">Generated Resume</h2>
-          <div className="bg-gray-50 p-4 border rounded whitespace-pre-wrap">
+          <div className="bg-white p-6 rounded-lg shadow-md text-black whitespace-pre-wrap prose">
             {generatedContent}
           </div>
         </div>
