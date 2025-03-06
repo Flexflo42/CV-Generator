@@ -1,7 +1,7 @@
-🌟 CV Generator
+# 🌟 CV Generator
 Welcome to CV Generator — a simple and sleek web application designed to help you quickly create professional resumes in just a few clicks! Whether you're a student, a job seeker, or a professional looking to organize your experience, CV Generator aims to provide an intuitive, easy-to-use platform to craft resumes on the go.
 
-🚀 Features
+## 🚀 Features
 ✅ Clean and modern UI
 ✅ Instantly generate a basic resume from your inputs
 ✅ Easy-to-use form for adding essential information:
@@ -13,16 +13,16 @@ Experience
 ✅ Auto-formatted resume preview
 ✅ One-click "Generate Resume" button
 
-🔮 Future Plans
+## 🔮 Future Plans
 This is just the beginning! I'm actively working to expand the capabilities of CV Generator!
 
 
-🖼️ Screenshot
+## 🖼️ Screenshot
 
 ![image](https://github.com/user-attachments/assets/43fff414-3f65-483a-8363-a72fae94cecb)
 
 
-🤝 Contributing
+## 🤝 Contributing
 I would love your feedback, feature requests, and contributions!
 
 Fork the project
@@ -31,7 +31,7 @@ Commit your changes (git commit -m 'Add some AmazingFeature')
 Push to the branch (git push origin feature/AmazingFeature)
 Open a Pull Request
 
-# Technical Information and installation
+## Technical Information and installation
 
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
