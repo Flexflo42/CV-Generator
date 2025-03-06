@@ -2,16 +2,16 @@
 Welcome to CV Generator — a simple and sleek web application designed to help you quickly create professional resumes in just a few clicks! Whether you're a student, a job seeker, or a professional looking to organize your experience, CV Generator aims to provide an intuitive, easy-to-use platform to craft resumes on the go.
 
 ## 🚀 Features
-✅ Clean and modern UI
-✅ Instantly generate a basic resume from your inputs
-✅ Easy-to-use form for adding essential information:
+- ✅ Clean and modern UI
+- ✅ Instantly generate a basic resume from your inputs
+- ✅ Easy-to-use form for adding essential information:
 
-Full Name
-Job Title
-Skills
-Experience
-✅ Auto-formatted resume preview
-✅ One-click "Generate Resume" button
+- Full Name
+- Job Title
+- Skills
+- Experience
+- ✅ Auto-formatted resume preview
+- ✅ One-click "Generate Resume" button
 
 ## 🔮 Future Plans
 This is just the beginning! I'm actively working to expand the capabilities of CV Generator!
