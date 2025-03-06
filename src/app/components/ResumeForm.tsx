@@ -1,6 +1,6 @@
 'use client';
 import { useState, FormEvent } from 'react';
-import { generateResume } from '../lib/groq';
+
 
 export default function ResumeForm() {
   const [resumeData, setResumeData] = useState({
@@ -9,6 +9,10 @@ export default function ResumeForm() {
     skills: [''],
     experience: ['']
   });
+  
+  const [generatedContent, setGeneratedContent] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState('');
 
   const handleInputChange = (
     field: keyof typeof resumeData, 
@@ -26,70 +30,145 @@ export default function ResumeForm() {
     setResumeData(newData);
   };
 
+  const addField = (field: 'skills' | 'experience') => {
+    setResumeData(prev => ({
+      ...prev,
+      [field]: [...prev[field], '']
+    }));
+  };
+
   const handleGenerate = async (e: FormEvent) => {
     e.preventDefault();
+    setIsLoading(true);
+    setError('');
+    
     try {
-      const generatedResume = await generateResume({
-        ...resumeData,
-        skills: resumeData.skills.filter(skill => skill.trim() !== ''),
-        experience: resumeData.experience.filter(exp => exp.trim() !== '')
+      const response = await fetch('/api/generate-resume', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          ...resumeData,
+          skills: resumeData.skills.filter(skill => skill.trim() !== ''),
+          experience: resumeData.experience.filter(exp => exp.trim() !== '')
+        })
       });
       
-      // TODO: Handle generated resume (e.g., display or save)
-      console.log(generatedResume);
+      if (!response.ok) {
+        throw new Error('Failed to generate resume');
+      }
+      
+      const data = await response.json();
+      setGeneratedContent(data.content);
     } catch (error) {
-      // TODO: Implement error handling
       console.error('Resume generation failed', error);
+      setError('Failed to generate resume. Please try again.');
+    } finally {
+      setIsLoading(false);
     }
   };
 
   return (
-    <form onSubmit={handleGenerate} className="space-y-4">
-      <input
-        type="text"
-        placeholder="Name"
-        value={resumeData.name}
-        onChange={(e) => handleInputChange('name', 0, e.target.value)}
-        className="w-full p-2 border rounded"
-      />
-      <input
-        type="text"
-        placeholder="Job Title"
-        value={resumeData.jobTitle}
-        onChange={(e) => handleInputChange('jobTitle', 0, e.target.value)}
-        className="w-full p-2 border rounded"
-      />
+    <div className="max-w-2xl mx-auto p-4">
+      <h1 className="text-2xl font-bold mb-6">CV Generator</h1>
       
-      {/* Dynamic Skills Input */}
-      {resumeData.skills.map((skill, index) => (
-        <input
-          key={index}
-          type="text"
-          placeholder={`Skill ${index + 1}`}
-          value={skill}
-          onChange={(e) => handleInputChange('skills', index, e.target.value)}
-          className="w-full p-2 border rounded"
-        />
-      ))}
+      <form onSubmit={handleGenerate} className="space-y-4 mb-8">
+        <div>
+          <label className="block text-sm font-medium mb-1">Full Name</label>
+          <input
+            type="text"
+            placeholder="John Doe"
+            value={resumeData.name}
+            onChange={(e) => handleInputChange('name', 0, e.target.value)}
+            className="w-full p-2 border rounded"
+            required
+          />
+        </div>
+        
+        <div>
+          <label className="block text-sm font-medium mb-1">Job Title</label>
+          <input
+            type="text"
+            placeholder="Software Engineer"
+            value={resumeData.jobTitle}
+            onChange={(e) => handleInputChange('jobTitle', 0, e.target.value)}
+            className="w-full p-2 border rounded"
+            required
+          />
+        </div>
+        
+        {/* Dynamic Skills Input */}
+        <div>
+          <div className="flex justify-between items-center mb-1">
+            <label className="block text-sm font-medium">Skills</label>
+            <button 
+              type="button" 
+              onClick={() => addField('skills')}
+              className="text-sm text-blue-500"
+            >
+              + Add Skill
+            </button>
+          </div>
+          
+          {resumeData.skills.map((skill, index) => (
+            <input
+              key={`skill-${index}`}
+              type="text"
+              placeholder={`JavaScript, React, Node.js, etc.`}
+              value={skill}
+              onChange={(e) => handleInputChange('skills', index, e.target.value)}
+              className="w-full p-2 border rounded mb-2"
+            />
+          ))}
+        </div>
+        
+        {/* Dynamic Experience Input */}
+        <div>
+          <div className="flex justify-between items-center mb-1">
+            <label className="block text-sm font-medium">Experience</label>
+            <button 
+              type="button" 
+              onClick={() => addField('experience')}
+              className="text-sm text-blue-500"
+            >
+              + Add Experience
+            </button>
+          </div>
+          
+          {resumeData.experience.map((exp, index) => (
+            <input
+              key={`exp-${index}`}
+              type="text"
+              placeholder="Senior Developer at XYZ Corp (2020-2023)"
+              value={exp}
+              onChange={(e) => handleInputChange('experience', index, e.target.value)}
+              className="w-full p-2 border rounded mb-2"
+            />
+          ))}
+        </div>
+        
+        <button 
+          type="submit" 
+          className="w-full bg-blue-500 hover:bg-blue-600 text-white p-2 rounded transition"
+          disabled={isLoading}
+        >
+          {isLoading ? 'Generating...' : 'Generate Resume'}
+        </button>
+      </form>
       
-      {/* Dynamic Experience Input */}
-      {resumeData.experience.map((exp, index) => (
-        <input
-          key={index}
-          type="text"
-          placeholder={`Experience ${index + 1}`}
-          value={exp}
-          onChange={(e) => handleInputChange('experience', index, e.target.value)}
-          className="w-full p-2 border rounded"
-        />
-      ))}
+      {error && (
+        <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
+          {error}
+        </div>
+      )}
       
-      <button 
-        type="submit" 
-        className="w-full bg-blue-500 text-white p-2 rounded"
-      >
-        Generate Resume
-      </button>
-    </form>
+      {generatedContent && (
+        <div className="mt-6">
+          <h2 className="text-xl font-bold mb-3">Generated Resume</h2>
+          <div className="bg-gray-50 p-4 border rounded whitespace-pre-wrap">
+            {generatedContent}
+          </div>
+        </div>
+      )}
+    </div>
   );
 }
