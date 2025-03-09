@@ -12,8 +12,15 @@
   --font-mono: var(--font-geist-mono);
 }
 
+/* Add this class-based selector for dark mode */
+.dark {
+  --background: #0a0a0a;
+  --foreground: #ededed;
+}
+
+/* Keep the media query as a fallback for when JS isn't loaded */
 @media (prefers-color-scheme: dark) {
-  :root {
+  :root:not(.light) {
     --background: #0a0a0a;
     --foreground: #ededed;
   }
